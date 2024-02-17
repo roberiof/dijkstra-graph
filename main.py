@@ -26,6 +26,9 @@ sourceBlog = input("Escolha o blog de início: ").strip()
 targetBlog = input("Escolha o blog final: ").strip()
 
 if (sourceBlog != targetBlog and sourceBlog in graph and targetBlog in graph):
-  shortest_distances = dijkstra(graph, sourceBlog)
-  print(f"O menor caminho entre os blogs {sourceBlog} e {targetBlog} é: {shortest_distances[targetBlog]}")
+  data = dijkstra(graph, sourceBlog, targetBlog)
+  print()
+  print("O caminho que acumula menor soma de pesos entre os blogs é: \n", " - ".join(aux.upper() for aux in data["shortestPath"]))
+  print()
+  print(f"A menor soma de pesos entre os blogs {sourceBlog.upper()} e {targetBlog.upper()} é: {data['minWeight']}")
 

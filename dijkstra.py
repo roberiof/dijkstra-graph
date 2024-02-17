@@ -5,30 +5,37 @@
 #     'D': [('B', 5), ('C', 1)]
 # }
 
-def dijkstra(graph, start):
-  distances = {node: float('infinity') for node in graph}
-  distances[start] = 0
+def dijkstra(graph, source, target):
+  weights = {node: float('infinity') for node in graph}
+  weights[source] = 0
   visited = set()
+  predecessors = {node: None for node in graph}
 
   while len(visited) < len(graph):
     min_node = None
-    min_distance = float('infinity')
+    min_weight = float('infinity')
     for node in graph:
-      if node not in visited and distances[node] < min_distance:
+      if node not in visited and weights[node] < min_weight:
         min_node = node
-        min_distance = distances[node]
+        min_weight = weights[node]
 
     if min_node is None:
       break
 
     visited.add(min_node)
 
-    # Update distances for neighbors
     for neighbor, weight in graph[min_node]:
-      distance = distances[min_node] + weight
+      total_weight = weights[min_node] + weight
 
-      if distance < distances[neighbor]:
-        distances[neighbor] = distance
+      if total_weight < weights[neighbor]:
+        weights[neighbor] = total_weight
+        predecessors[neighbor] = min_node
 
-  return distances
+  path = []
+  current_node = target
+  while current_node is not None:
+    path.insert(0, current_node)
+    current_node = predecessors[current_node]
+
+  return {"minWeight": weights[target], "shortestPath": path}
 
